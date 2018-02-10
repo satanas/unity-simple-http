@@ -1,0 +1,20 @@
+# =============== #
+# Unity generated #
+# =============== #
+Temp/
+Library/
+Dist/
+
+# ===================== #
+# MonoDevelop generated #
+# ===================== #
+*.csproj
+*.unityproj
+*.sln
+*.pidb
+*.userprefs
+
+# ============ #
+# OS generated #
+# ============ #
+*.DS_Store
