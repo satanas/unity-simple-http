@@ -4,6 +4,9 @@ SimpleHTTP is a dead simple HTTP client for Unity, because HTTP shouldn't be tha
 
 ## Installation
 
+Download the [.unitypackage](https://github.com/satanas/unity-simple-http/blob/master/simplehttp-1.0.0.unitypackage) file
+and inside Unity go to the menu `Assets -> Import New Assets...` and select the package for SimpleHTTP.
+
 ## Features
 
 Currently, SimpleHTTP supports:
@@ -28,7 +31,14 @@ like this:
 * Profit!
 
 To make your life even easier, SimpleHTTP support JSON serialization and deserialization, so you don't need to worry
-about that. Below are some examples that can help you understand how it works.
+about that. To use it in your Unity scripts, you just need to add the following instruction at the top of your .cs
+scripts:
+
+```
+using SimpleHTTP;
+```
+
+Below are some examples that can help you understand how it works.
 
 ### GET
 
@@ -160,12 +170,18 @@ IEnumerator Get() {
 PUT requests will work exactly the same than POSTs, you just need to use `Put()` instead. And DELETEs will work
 similarly to GETs, just use `Delete()` for that and you're done.
 
+## License
+
+SimpleHTTP is licensed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+
 ## Donation
 
 SimpleHTTP is free and open source because I think that HTTP is something foundamental and basic for games nowadays,
 and there are no simple and free solutions to perform basic tasks like GET or POST. However, I'm open to donations, and
 if you really love SimpleHTTP I'd really appreciate if you buy me a coffee to continue improving this small and simple
 client for the use of all of us.
+
+https://paypal.me/satanas82
 
 
 

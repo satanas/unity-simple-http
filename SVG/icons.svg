@@ -29,10 +29,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.35"
-     inkscape:cx="234.8666"
-     inkscape:cy="-1339.2404"
+     inkscape:cx="472.00946"
+     inkscape:cy="-1567.8119"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer2"
      showgrid="false"
      units="px"
      inkscape:window-width="1440"
@@ -58,7 +58,7 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="Frames"
-     style="display:inline;opacity:1">
+     style="display:inline;opacity:0">
     <rect
        style="opacity:1;fill:#d400a5;fill-opacity:1;stroke:none;stroke-width:20;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect4501"
@@ -86,6 +86,16 @@
        width="1200"
        id="rect4642"
        style="opacity:1;fill:#d400a5;fill-opacity:1;stroke:none;stroke-width:20;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <rect
+       style="opacity:1;fill:#b752d4;fill-opacity:1;stroke:none;stroke-width:20;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5069"
+       width="860"
+       height="389"
+       x="-88.571396"
+       y="2602.4285"
+       ry="0"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
   </g>
   <g
      inkscape:label="Layer 1"
@@ -645,5 +655,19 @@
          x="476.85513"
          y="2278.8306"
          id="tspan5067">humans</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:26.7890377px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;opacity:0.77300002;fill:#eb1428;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="23.237019"
+       y="3084.2502"
+       id="text5072"
+       sodipodi:linespacing="125%"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan5074"
+         x="23.237019"
+         y="3084.2502"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:120.55066681px;font-family:Haettenschweiler;-inkscape-font-specification:'Haettenschweiler Medium';fill:#eb1428;fill-opacity:1">http://satanas.io</tspan></text>
   </g>
 </svg>
