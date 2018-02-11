@@ -22,7 +22,7 @@ All of these features with a simple and consistent API. In the future it will al
 
 ## Usage
 
-SimpleHTTP is very, very, very, simple to use (really!) and it is asyncronous. You can send any type of request
+SimpleHTTP is very, very, very, simple to use (really!) and it is asynchronous. You can send any type of request
 basically with three objects: `Request`, `Client` and `Response`. Consider that the general flow would be something
 like this:
 * Create a request
@@ -176,7 +176,7 @@ SimpleHTTP is licensed under the [Apache License, Version 2.0](https://www.apach
 
 ## Donation
 
-SimpleHTTP is free and open source because I think that HTTP is something foundamental and basic for games nowadays,
+SimpleHTTP is free and open source because I think that HTTP is something fundamental and basic for games nowadays,
 and there are no simple and free solutions to perform basic tasks like GET or POST. However, I'm open to donations, and
 if you really love SimpleHTTP I'd really appreciate if you buy me a coffee to continue improving this small and simple
 client for the use of all of us.
