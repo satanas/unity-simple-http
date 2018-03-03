@@ -1,0 +1,120 @@
+<h1 id="simplehttp">SimpleHTTP</h1>
+<p>SimpleHTTP is a dead simple HTTP client for Unity, because HTTP shouldn’t be that hard.</p>
+<h2 id="installation">Installation</h2>
+<p>Download the <a href="https://github.com/satanas/unity-simple-http/blob/master/simplehttp-1.0.0.unitypackage">.unitypackage</a> file and inside Unity go to the menu <code>Assets -&gt; Import New Assets...</code> and select the package for SimpleHTTP.</p>
+<h2 id="features">Features</h2>
+<p>Currently, SimpleHTTP supports: * HTTP and HTTPS * GET, POST, PUT and DELETE * Headers * Timeouts</p>
+<p>All of these features with a simple and consistent API. In the future it will also support: * More validations * URL parsing * Delegates to indicate progress</p>
+<h2 id="usage">Usage</h2>
+<p>SimpleHTTP is very, very, very, simple to use (really!) and it is asynchronous. You can send any type of request basically with three objects: <code>Request</code>, <code>Client</code> and <code>Response</code>. Consider that the general flow would be something like this: * Create a request * Use the client to send the request * Get the response * Profit!</p>
+<p>To make your life even easier, SimpleHTTP support JSON serialization and deserialization, so you don’t need to worry about that. To use it in your Unity scripts, you just need to add the following instruction at the top of your .cs scripts:</p>
+<pre><code>using SimpleHTTP;</code></pre>
+<p>Below are some examples that can help you understand how it works. Also you can refer to the <code>Examples</code> folder for a full working example of the library with a demo scene.</p>
+<h3 id="get">GET</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode csharp"><code class="sourceCode cs"><a class="sourceLine" id="cb2-1" data-line-number="1">IEnumerator <span class="fu">Get</span>() {</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">    <span class="co">// Create the request object</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">    Request request = <span class="kw">new</span> <span class="fu">Request</span> (<span class="st">&quot;https://jsonplaceholder.typicode.com/posts/1&quot;</span>);</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">    <span class="co">// Instantiate the client</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">    Client http = <span class="kw">new</span> <span class="fu">Client</span> ();</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">    <span class="co">// Send the request</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">    <span class="kw">yield</span> <span class="kw">return</span> http.<span class="fu">Send</span> (request);</a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">    <span class="co">// Use the response if the request was successful, otherwise print an error</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">    <span class="kw">if</span> (http.<span class="fu">IsSuccessful</span> ()) {</a>
+<a class="sourceLine" id="cb2-12" data-line-number="12">        Response resp = http.<span class="fu">Response</span> ();</a>
+<a class="sourceLine" id="cb2-13" data-line-number="13">        Debug.<span class="fu">Log</span>(<span class="st">&quot;status: &quot;</span> + resp.<span class="fu">Status</span>().<span class="fu">ToString</span>() + <span class="st">&quot;</span><span class="sc">\n</span><span class="st">body: &quot;</span> + resp.<span class="fu">Body</span>());</a>
+<a class="sourceLine" id="cb2-14" data-line-number="14">    } <span class="kw">else</span> {</a>
+<a class="sourceLine" id="cb2-15" data-line-number="15">        Debug.<span class="fu">Log</span>(<span class="st">&quot;error: &quot;</span> + http.<span class="fu">Error</span>());</a>
+<a class="sourceLine" id="cb2-16" data-line-number="16">    }</a>
+<a class="sourceLine" id="cb2-17" data-line-number="17">}</a></code></pre></div>
+<h3 id="post-with-json-payload-raw">POST with JSON payload (raw)</h3>
+<p>As I mentioned before, SimpleHTTP supports JSON serialization and deserialization, so you just need to have serializable POJOs in your code. Let’s say you want to fetch a post from a certain URL and your POJO looks like this:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode csharp"><code class="sourceCode cs"><a class="sourceLine" id="cb3-1" data-line-number="1">[System.<span class="fu">Serializable</span>]</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">public</span> <span class="kw">class</span> Post {</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">    <span class="kw">private</span> <span class="dt">string</span> title;</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">    <span class="kw">private</span> <span class="dt">string</span> body;</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">    <span class="kw">private</span> <span class="dt">int</span> userId;</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">    <span class="kw">public</span> <span class="fu">Post</span>(<span class="dt">string</span> title, <span class="dt">string</span> body, <span class="dt">int</span> userId) {</a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">        <span class="kw">this</span>.<span class="fu">title</span> = title;</a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">        <span class="kw">this</span>.<span class="fu">body</span> = body;</a>
+<a class="sourceLine" id="cb3-10" data-line-number="10">        <span class="kw">this</span>.<span class="fu">userId</span> = userId;</a>
+<a class="sourceLine" id="cb3-11" data-line-number="11">    }</a>
+<a class="sourceLine" id="cb3-12" data-line-number="12">}</a></code></pre></div>
+<p>Then you can send a POST to the server to create a new post.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode csharp"><code class="sourceCode cs"><a class="sourceLine" id="cb4-1" data-line-number="1">IEnumerator <span class="fu">Post</span>() {</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">    <span class="co">// Let&#39;s say that this the object you want to create</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">    Post post = <span class="kw">new</span> <span class="fu">Post</span> (<span class="st">&quot;Test&quot;</span>, <span class="st">&quot;This is a test&quot;</span>, <span class="dv">1</span>);</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">    <span class="co">// Create the request object and use the helper function `RequestBody` to create a body from JSON</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">    Request request = <span class="kw">new</span> <span class="fu">Request</span> (<span class="st">&quot;https://jsonplaceholder.typicode.com/posts&quot;</span>)</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">        .<span class="fu">Post</span> (RequestBody.<span class="fu">From</span>&lt;Post&gt; (post));</a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9">    <span class="co">// Instantiate the client</span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10">    Client http = <span class="kw">new</span> <span class="fu">Client</span> ();</a>
+<a class="sourceLine" id="cb4-11" data-line-number="11">    <span class="co">// Send the request</span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12">    <span class="kw">yield</span> <span class="kw">return</span> http.<span class="fu">Send</span> (request);</a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14">    <span class="co">// Use the response if the request was successful, otherwise print an error</span></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15">    <span class="kw">if</span> (http.<span class="fu">IsSuccessful</span> ()) {</a>
+<a class="sourceLine" id="cb4-16" data-line-number="16">        Response resp = http.<span class="fu">Response</span> ();</a>
+<a class="sourceLine" id="cb4-17" data-line-number="17">        Debug.<span class="fu">Log</span>(<span class="st">&quot;status: &quot;</span> + resp.<span class="fu">Status</span>().<span class="fu">ToString</span>() + <span class="st">&quot;</span><span class="sc">\n</span><span class="st">body: &quot;</span> + resp.<span class="fu">Body</span>());</a>
+<a class="sourceLine" id="cb4-18" data-line-number="18">    } <span class="kw">else</span> {</a>
+<a class="sourceLine" id="cb4-19" data-line-number="19">        Debug.<span class="fu">Log</span>(<span class="st">&quot;error: &quot;</span> + http.<span class="fu">Error</span>());</a>
+<a class="sourceLine" id="cb4-20" data-line-number="20">    }</a>
+<a class="sourceLine" id="cb4-21" data-line-number="21">}</a></code></pre></div>
+<p>SimpleHTTP will set the content type of this request automagically as “application/json”, so another thing to don’t worry about :).</p>
+<h3 id="post-with-formdata">POST with FormData</h3>
+<p>If the server only supports <code>x-www-form-urlencoded</code> you still can use SimpleHTTP to send your request. In this case, you just need to use the <code>FormData</code> helper to create the body of your request. Then you can send the POST as you would normally do (and SimpleHTTP will also take care of the content type for this request).</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode csharp"><code class="sourceCode cs"><a class="sourceLine" id="cb5-1" data-line-number="1">IEnumerator <span class="fu">Post</span>() {</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">    FormData formData = <span class="kw">new</span> <span class="fu">FormData</span> ()</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">        .<span class="fu">AddField</span> (<span class="st">&quot;userId&quot;</span>, <span class="st">&quot;1&quot;</span>)</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">        .<span class="fu">AddField</span> (<span class="st">&quot;body&quot;</span>, <span class="st">&quot;Hey, another test&quot;</span>)</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">        .<span class="fu">AddField</span> (<span class="st">&quot;title&quot;</span>, <span class="st">&quot;Did I say test?&quot;</span>);</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">    <span class="co">// Create the request object and use the helper function `RequestBody` to create a body from FormData</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8">    Request request = <span class="kw">new</span> <span class="fu">Request</span> (<span class="st">&quot;https://jsonplaceholder.typicode.com/posts&quot;</span>)</a>
+<a class="sourceLine" id="cb5-9" data-line-number="9">        .<span class="fu">Post</span> (RequestBody.<span class="fu">From</span> (formData));</a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11">    <span class="co">// Instantiate the client</span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12">    Client http = <span class="kw">new</span> <span class="fu">Client</span> ();</a>
+<a class="sourceLine" id="cb5-13" data-line-number="13">    <span class="co">// Send the request</span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14">    <span class="kw">yield</span> <span class="kw">return</span> http.<span class="fu">Send</span> (request);</a>
+<a class="sourceLine" id="cb5-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16">    <span class="co">// Use the response if the request was successful, otherwise print an error</span></a>
+<a class="sourceLine" id="cb5-17" data-line-number="17">    <span class="kw">if</span> (http.<span class="fu">IsSuccessful</span> ()) {</a>
+<a class="sourceLine" id="cb5-18" data-line-number="18">        Response resp = http.<span class="fu">Response</span> ();</a>
+<a class="sourceLine" id="cb5-19" data-line-number="19">        Debug.<span class="fu">Log</span>(<span class="st">&quot;status: &quot;</span> + resp.<span class="fu">Status</span>().<span class="fu">ToString</span>() + <span class="st">&quot;</span><span class="sc">\n</span><span class="st">body: &quot;</span> + resp.<span class="fu">Body</span>());</a>
+<a class="sourceLine" id="cb5-20" data-line-number="20">    } <span class="kw">else</span> {</a>
+<a class="sourceLine" id="cb5-21" data-line-number="21">        Debug.<span class="fu">Log</span>(<span class="st">&quot;error: &quot;</span> + http.<span class="fu">Error</span>());</a>
+<a class="sourceLine" id="cb5-22" data-line-number="22">    }</a>
+<a class="sourceLine" id="cb5-23" data-line-number="23">}</a></code></pre></div>
+<h3 id="adding-headers-to-your-request">Adding headers to your request</h3>
+<p>So, you also need to add certain headers to your request? Do not fear! SimpleHTTP also let you do that easily. Just use the <code>AddHeader</code> method in your request and you’re all set.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode csharp"><code class="sourceCode cs"><a class="sourceLine" id="cb6-1" data-line-number="1">IEnumerator <span class="fu">Get</span>() {</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">    <span class="co">// Create the request object</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">    Request request = <span class="kw">new</span> <span class="fu">Request</span> (<span class="st">&quot;https://jsonplaceholder.typicode.com/posts/1&quot;</span>)</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">        .<span class="fu">AddHeader</span> (<span class="st">&quot;Test-Header&quot;</span>, <span class="st">&quot;test&quot;</span>)</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">        .<span class="fu">AddHeader</span> (<span class="st">&quot;X-Fancy-Id&quot;</span>, <span class="st">&quot;some-fancy-id&quot;</span>);</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">    <span class="co">// Instantiate the client</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8">    Client http = <span class="kw">new</span> <span class="fu">Client</span> ();</a>
+<a class="sourceLine" id="cb6-9" data-line-number="9">    <span class="co">// Send the request</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10">    <span class="kw">yield</span> <span class="kw">return</span> http.<span class="fu">Send</span> (request);</a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12">    <span class="co">// Use the response if the request was successful, otherwise print an error</span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13">    <span class="kw">if</span> (http.<span class="fu">IsSuccessful</span> ()) {</a>
+<a class="sourceLine" id="cb6-14" data-line-number="14">        Response resp = http.<span class="fu">Response</span> ();</a>
+<a class="sourceLine" id="cb6-15" data-line-number="15">        Debug.<span class="fu">Log</span>(<span class="st">&quot;status: &quot;</span> + resp.<span class="fu">Status</span>().<span class="fu">ToString</span>() + <span class="st">&quot;</span><span class="sc">\n</span><span class="st">body: &quot;</span> + resp.<span class="fu">Body</span>());</a>
+<a class="sourceLine" id="cb6-16" data-line-number="16">    } <span class="kw">else</span> {</a>
+<a class="sourceLine" id="cb6-17" data-line-number="17">        Debug.<span class="fu">Log</span>(<span class="st">&quot;error: &quot;</span> + http.<span class="fu">Error</span>());</a>
+<a class="sourceLine" id="cb6-18" data-line-number="18">    }</a>
+<a class="sourceLine" id="cb6-19" data-line-number="19">}</a></code></pre></div>
+<h3 id="put-and-delete">PUT and DELETE</h3>
+<p>PUT requests will work exactly the same than POSTs, you just need to use <code>Put()</code> instead. And DELETEs will work similarly to GETs, just use <code>Delete()</code> for that and you’re done.</p>
+<h2 id="license">License</h2>
+<p>SimpleHTTP is licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>.</p>
+<h2 id="donation">Donation</h2>
+<p>SimpleHTTP is free and open source because I think that HTTP is something fundamental and basic for games nowadays, and there are no simple and free solutions to perform basic tasks like GET or POST. However, I’m open to donations, and if you really love SimpleHTTP I’d really appreciate if you buy me a coffee to continue improving this small and simple client for the use of all of us.</p>
+<p>https://paypal.me/satanas82</p>

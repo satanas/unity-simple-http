@@ -4,6 +4,7 @@
 Temp/
 Library/
 Dist/
+Assets/AssetStoreTools*
 
 # ===================== #
 # MonoDevelop generated #

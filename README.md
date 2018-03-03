@@ -38,7 +38,8 @@ scripts:
 using SimpleHTTP;
 ```
 
-Below are some examples that can help you understand how it works.
+Below are some examples that can help you understand how it works. Also you can refer to the `Examples` folder for a
+full working example of the library with a demo scene.
 
 ### GET
 
@@ -89,7 +90,7 @@ IEnumerator Post() {
     Post post = new Post ("Test", "This is a test", 1);
 
     // Create the request object and use the helper function `RequestBody` to create a body from JSON
-    Request request = new Request ("https://jsonplaceholder.typicode.com/posts");
+    Request request = new Request ("https://jsonplaceholder.typicode.com/posts")
         .Post (RequestBody.From<Post> (post));
 
     // Instantiate the client
@@ -122,7 +123,7 @@ IEnumerator Post() {
         .AddField ("title", "Did I say test?");
 
     // Create the request object and use the helper function `RequestBody` to create a body from FormData
-    Request request = new Request ("https://jsonplaceholder.typicode.com/posts");
+    Request request = new Request ("https://jsonplaceholder.typicode.com/posts")
         .Post (RequestBody.From (formData));
 
     // Instantiate the client
