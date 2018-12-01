@@ -38,7 +38,7 @@ namespace SimpleHTTP {
 
 				yield return www.Send ();
 
-				if (www.isError) {
+				if (www.isNetworkError) {
 					error = www.error;
 				} else {
 					response = SimpleHTTP.Response.From (www);
