@@ -1,64 +1,44 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.Networking;
+using System;
 
 namespace SimpleHTTP {
 	public class Client {
 		private Response response;
 		private string error;
-		private UnityWebRequest www;
+		private Request request;
 
 		public Client() {
 			error = null;
 			response = null;
-			www = null;
 		}
 
-		public IEnumerator Send(Request request) {
-			// Employing `using` will ensure that the UnityWebRequest is properly cleaned in case of uncaught exceptions
-			using (www = new UnityWebRequest (request.Url (), request.Method ())) {
+		public IEnumerator Send(Request www) {
+			this.request = www;
 
-				www.timeout = request.Timeout ();
+			yield return request.Send ();
 
-				RequestBody body = request.Body ();
-				if (body != null) {
-					UploadHandler uploader = new UploadHandlerRaw (body.Body ());
-					uploader.contentType = body.ContentType ();
-					www.uploadHandler = uploader;
-				}
-
-				Dictionary<string, string> headers = request.Headers ();
-				if (headers != null) {
-					foreach (KeyValuePair<string, string> header in headers) {
-						www.SetRequestHeader (header.Key, header.Value);
-					}
-				}
-
-				www.downloadHandler = new DownloadHandlerBuffer ();
-
-				yield return www.Send ();
-
-				if (www.isNetworkError) {
-					error = www.error;
-				} else {
-					response = SimpleHTTP.Response.From (www);
-				}
-			}
+			response = request.Response ();
+			error = response.Error (); // Backward compatibility
 		}
 
 		public void Abort() {
-			www.Abort ();
+			if (request != null) {
+				request.Abort ();
+			}
 		}
 
+		[Obsolete("IsSuccessful() is deprecated. Please, use Response() to get the response and check response.IsOK()")]
 		public bool IsSuccessful() {
-			return error == null;
+			return (response != null && response.IsOK());
 		}
 
+		[Obsolete("Error() is deprecated. Please, use Response() to get the response and check response.Error()")]
 		public string Error() {
 			return error;
 		}
 
-		public SimpleHTTP.Response Response() {
+		public Response Response() {
 			return response;
 		}
 	}

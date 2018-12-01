@@ -6,7 +6,6 @@ using System.Collections;
 using SimpleHTTP;
 using System.Text;
 using System.Linq;
-using UnityEngine.Networking;
 using NSubstitute;
 
 public class ResponseTest {
@@ -17,15 +16,6 @@ public class ResponseTest {
 	// Subject under test
 	private Response response;
 
-	[SetUp]
-	public void SetUp() {
-		
-	}
-
-	[TearDown]
-	public void TearDown() {
-	}
-
 	[Test]
 	public void TestConstructorAndGetters() {
 		// Execution
@@ -35,6 +25,7 @@ public class ResponseTest {
 		Assert.That (response.Status () == 200);
 		Assert.That (response.Body () == body);
 		Assert.That (response.RawBody ().SequenceEqual(rawBody));
+		Assert.That (response.Error() == null);
 	}
 
 	[Test]
@@ -96,45 +87,11 @@ public class ResponseTest {
 
 		// Execution
 		response = new Response(200, json, null);
-		Post post = response.To<Post>();
+		BlogPost post = response.To<BlogPost>();
 
 		// Expected
 		Assert.That(post.title == title);
 		Assert.That (post.body == body);
 		Assert.That (post.userId == userId);
-	}
-
-	[Test]
-	public void TestFrom() {
-		// Conditions
-		DownloadHandler dlHandler = Substitute.For<DownloadHandler> ();
-		dlHandler.data.Returns (rawBody);
-		dlHandler.text.Returns ("Foo Bar");
-
-		UnityWebRequest request = new UnityWebRequest ("http://127.0.0.1");
-		request.downloadHandler = dlHandler;
-
-		// Execution
-		response = Response.From(request);
-
-		Debug.Log (response.Status ());
-		// Expected
-		// FIXME: Test statusCode
-		//Assert.That (response.Status () == 201);
-		Assert.That (response.Body () == "Foo Bar");
-		Assert.That (response.RawBody ().SequenceEqual(rawBody));
-	}
-}
-
-[System.Serializable]
-public class Post {
-	public string title;
-	public string body;
-	public int userId;
-
-	public Post(string title, string body, int userId) {
-		this.title = title;
-		this.body = body;
-		this.userId = userId;
 	}
 }

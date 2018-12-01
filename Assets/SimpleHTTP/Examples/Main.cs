@@ -25,11 +25,11 @@ public class Main : MonoBehaviour {
 	}
 
 	IEnumerator Post() {
-		Post post = new Post ("Test", "This is a test", 1);
+		BlogPost post = new BlogPost ("Test", "This is a test", 1);
 
 		Request request = new Request (validURL)
 			.AddHeader ("Test-Header", "test")
-			.Post (RequestBody.From<Post> (post));
+			.Post (RequestBody.From<BlogPost> (post));
 
 		Client http = new Client ();
 		yield return http.Send (request);
@@ -51,10 +51,10 @@ public class Main : MonoBehaviour {
 	}
 
 	IEnumerator Put() {
-		Post post = new Post ("Another Test", "This is another test", 1);
+		BlogPost post = new BlogPost ("Another Test", "This is another test", 1);
 
 		Request request = new Request (validURL + "1")
-			.Put (RequestBody.From<Post> (post));
+			.Put (RequestBody.From<BlogPost> (post));
 
 		Client http = new Client ();
 		yield return http.Send (request);

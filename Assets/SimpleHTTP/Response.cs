@@ -8,11 +8,17 @@ namespace SimpleHTTP {
 		private long status;
 		private string body;
 		private byte[] rawBody;
+		private string error;
 
 		public Response(long status, string body, byte[] rawBody) {
 			this.status = status;
 			this.body = body;
 			this.rawBody = rawBody;
+			this.error = null;
+		}
+
+		public Response(string error) {
+			this.error = error;
 		}
 
 		public T To<T>() {
@@ -32,15 +38,15 @@ namespace SimpleHTTP {
 		}
 
 		public bool IsOK() {
-			return status >= 200 && status < 300;
+			return status >= 200 && status < 300 && error == null;
+		}
+
+		public string Error() {
+			return error;
 		}
 
 		public string ToString() {
 			return "status: " + status.ToString () + " - response: " + body.ToString ();
-		}
-
-		public static Response From(UnityWebRequest www) {
-			return new Response (www.responseCode, www.downloadHandler.text, www.downloadHandler.data);
 		}
 	}
 }

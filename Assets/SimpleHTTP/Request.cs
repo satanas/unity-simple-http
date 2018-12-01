@@ -12,12 +12,15 @@ namespace SimpleHTTP {
 		private string method;
 		private Dictionary<string, string> headers;
 		private RequestBody body;
+		private Response response;
 		private int timeout;
+		private UnityWebRequest www;
 
 		public Request(string url) {
 			this.method = "GET";
 			this.url = url;
 			this.body = null;
+			this.response = null;
 			this.timeout = 0;
 			this.headers = new Dictionary<string, string> ();
 		}
@@ -49,6 +52,10 @@ namespace SimpleHTTP {
 		public Request Timeout(int timeout) {
 			this.timeout = timeout;
 			return this;
+		}
+
+		public int Timeout() {
+			return timeout;
 		}
 
 		public Request Get() {
@@ -87,8 +94,44 @@ namespace SimpleHTTP {
 			return headers;
 		}
 
-		public int Timeout() {
-			return timeout;
+		public Response Response() {
+			return response;
+		}
+
+		public void Abort() {
+			if (www != null) {
+				www.Abort ();
+			}
+		}
+
+		public IEnumerator Send() {
+			// Employing `using` will ensure that the UnityWebRequest is properly cleaned in case of uncaught exceptions
+			using (www = new UnityWebRequest (Url (), Method ())) {
+
+				www.timeout = timeout;
+
+				if (body != null) {
+					UploadHandler uploader = new UploadHandlerRaw (body.Body ());
+					uploader.contentType = body.ContentType ();
+					www.uploadHandler = uploader;
+				}
+					
+				if (headers != null) {
+					foreach (KeyValuePair<string, string> header in headers) {
+						www.SetRequestHeader (header.Key, header.Value);
+					}
+				}
+
+				www.downloadHandler = new DownloadHandlerBuffer ();
+
+				yield return www.Send ();
+
+				if (www.isNetworkError) {
+					response = new SimpleHTTP.Response(www.error);
+				} else {
+					response = new SimpleHTTP.Response(www.responseCode, www.downloadHandler.text, www.downloadHandler.data);
+				}
+			}
 		}
 	}
 }
