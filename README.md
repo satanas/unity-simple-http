@@ -116,11 +116,14 @@ you just need to use the `FormData` helper to create the body of your request. T
 would normally do (and SimpleHTTP will also take care of the content type for this request).
 
 ```csharp
+Byte[] myFile = File.ReadAllBytes("file/path/test.jpg");
+
 IEnumerator Post() {
     FormData formData = new FormData ()
         .AddField ("userId", "1")
         .AddField ("body", "Hey, another test")
-        .AddField ("title", "Did I say test?");
+        .AddField ("title", "Did I say test?")
+        .AddFile("file", myFile, "test.jpg", "image/jpg");
 
     // Create the request object and use the helper function `RequestBody` to create a body from FormData
     Request request = new Request ("https://jsonplaceholder.typicode.com/posts")

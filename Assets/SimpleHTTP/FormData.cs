@@ -21,6 +21,11 @@ namespace SimpleHTTP {
 			return this;
 		}
 
+		public FormData AddFile(string name, byte[] data, string fileName, string contentType) {
+			formData.Add (new MultipartFormFileSection (name, data, fileName, contentType));
+			return this;
+		}
+
 		public List<IMultipartFormSection> MultipartForm() {
 			return formData;
 		}
