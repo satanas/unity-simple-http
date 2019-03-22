@@ -25,11 +25,13 @@ public class Main : MonoBehaviour {
 	}
 
 	IEnumerator Post() {
-		BlogPost post = new BlogPost ("Test", "This is a test", 1);
+		UserProfile user = new UserProfile (1, "admin", "value01", "value02");
 
 		Request request = new Request (validURL)
-			.AddHeader ("Test-Header", "test")
-			.Post (RequestBody.From<BlogPost> (post));
+			.AddHeader ("Authorization", "myID")
+			.AddHeader ("Content-Type", "application/json")
+			.AddHeader ("X-Api-Version", "1.0.0")
+			.Post (RequestBody.From<UserProfile> (user));
 
 		Client http = new Client ();
 		yield return http.Send (request);

@@ -107,8 +107,10 @@ IEnumerator Post() {
     }
 }
 ```
-SimpleHTTP will set the content type of this request automagically as "application/json", so another thing to don't
-worry about :).
+
+Consider that the `Post` object can be something more complex, with other objects inside (check the `UserProfile.cs`
+class in the examples folder for more details). Also, SimpleHTTP will set the content type of this request automagically
+as "application/json", so another thing you don't need to worry about :).
 
 ### POST with FormData
 If the server only supports `x-www-form-urlencoded` you still can use SimpleHTTP to send your request. In this case,
