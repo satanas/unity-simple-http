@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.Networking;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace SimpleHTTP {
 	public class Response {
@@ -45,7 +42,7 @@ namespace SimpleHTTP {
 			return error;
 		}
 
-		public string ToString() {
+		public override string ToString() {
 			return "status: " + status.ToString () + " - response: " + body.ToString ();
 		}
 	}

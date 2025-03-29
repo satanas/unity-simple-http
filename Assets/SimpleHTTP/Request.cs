@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using System.Text;
 using UnityEngine.Networking;
 
 namespace SimpleHTTP {
@@ -127,9 +125,9 @@ namespace SimpleHTTP {
 				yield return www.Send ();
 
 				if (www.isNetworkError) {
-					response = new SimpleHTTP.Response(www.error);
+					response = new Response(www.error);
 				} else {
-					response = new SimpleHTTP.Response(www.responseCode, www.downloadHandler.text, www.downloadHandler.data);
+					response = new Response(www.responseCode, www.downloadHandler.text, www.downloadHandler.data);
 				}
 			}
 		}
