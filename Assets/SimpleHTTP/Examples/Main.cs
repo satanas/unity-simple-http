@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using SimpleHTTP;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Main : MonoBehaviour {
 
-	public TMP_Text errorText;
-	public TMP_Text successText;
+	public Text errorText;
+	public Text successText;
 
 	private const string ValidURL = "https://jsonplaceholder.typicode.com/posts/";
 	private const string InvalidURL = "https://jsonplaceholder.net/articles/";
