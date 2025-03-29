@@ -180,6 +180,16 @@ similarly to GETs, just use `Delete()` for that and you're done.
 
 SimpleHTTP is licensed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
+## Publish
+
+* Go to Tools -> Asset Store -> Uploader
+* `Upload type`: From Assets Folder
+* `Folder path`: Assets/SimpleHTTP/
+* `Dependencies`: com.unity.modules.ui, com.unity.modules.unitywebrequest
+* Validate
+* Export (to create .unitypackage in Assets folder)
+* Upload
+
 ## Donation
 
 SimpleHTTP is free and open source because I think that HTTP is something fundamental and basic for games nowadays,
