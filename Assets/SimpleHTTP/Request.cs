@@ -122,9 +122,9 @@ namespace SimpleHTTP {
 
 				www.downloadHandler = new DownloadHandlerBuffer ();
 
-				yield return www.Send ();
+				yield return www.SendWebRequest();
 
-				if (www.isNetworkError) {
+				if (www.result == UnityWebRequest.Result.ConnectionError) {
 					response = new Response(www.error);
 				} else {
 					response = new Response(www.responseCode, www.downloadHandler.text, www.downloadHandler.data);
