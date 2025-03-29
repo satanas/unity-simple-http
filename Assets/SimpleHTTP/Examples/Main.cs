@@ -1,23 +1,23 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using SimpleHTTP;
-using UnityEngine.UI;
+using TMPro;
+using UnityEngine;
 
 public class Main : MonoBehaviour {
 
-	private Text errorText;
-	private Text successText;
-	private string validURL = "https://jsonplaceholder.typicode.com/posts/";
-	private string invalidURL = "https://jsonplaceholder.net/articles/";
+	public TMP_Text errorText;
+	public TMP_Text successText;
+
+	private const string ValidURL = "https://jsonplaceholder.typicode.com/posts/";
+	private const string InvalidURL = "https://jsonplaceholder.net/articles/";
 
 	void Start () {
-		errorText = GameObject.Find ("ErrorText").GetComponent<Text> ();
-		successText = GameObject.Find ("SuccessText").GetComponent<Text> ();
+		errorText.text = "";
+		successText.text = "";
 	}
 
 	IEnumerator Get(string baseUrl, int postId) {
-		Request request = new Request (baseUrl + postId.ToString());
+		Request request = new Request (baseUrl + postId);
 
 		Client http = new Client ();
 		yield return http.Send (request);
@@ -27,7 +27,7 @@ public class Main : MonoBehaviour {
 	IEnumerator Post() {
 		UserProfile user = new UserProfile (1, "admin", "value01", "value02");
 
-		Request request = new Request (validURL)
+		Request request = new Request (ValidURL)
 			.AddHeader ("Authorization", "myID")
 			.AddHeader ("Content-Type", "application/json")
 			.AddHeader ("X-Api-Version", "1.0.0")
@@ -44,7 +44,7 @@ public class Main : MonoBehaviour {
 			.AddField ("body", "Hey, another test")
 			.AddField ("title", "Did I say test?");
 
-		Request request = new Request (validURL)
+		Request request = new Request (ValidURL)
 			.Post (RequestBody.From(formData));
 
 		Client http = new Client ();
@@ -55,7 +55,7 @@ public class Main : MonoBehaviour {
 	IEnumerator Put() {
 		BlogPost post = new BlogPost ("Another Test", "This is another test", 1);
 
-		Request request = new Request (validURL + "1")
+		Request request = new Request (ValidURL + "1")
 			.Put (RequestBody.From<BlogPost> (post));
 
 		Client http = new Client ();
@@ -64,7 +64,7 @@ public class Main : MonoBehaviour {
 	}
 
 	IEnumerator Delete() {
-		Request request = new Request (validURL + "1")
+		Request request = new Request (ValidURL + "1")
 			.Delete ();
 
 		Client http = new Client ();
@@ -79,18 +79,18 @@ public class Main : MonoBehaviour {
 	}
 
 	void ProcessResult(Client http) {
-		if (http.IsSuccessful ()) {
-			Response resp = http.Response ();
-			successText.text = "status: " + resp.Status().ToString() + "\nbody: " + resp.Body();
+		Response resp = http.Response ();
+		if (resp.IsOK()) {
+			successText.text = "status: " + resp.Status() + "\nbody: " + resp.Body();
 		} else {
-			errorText.text = "error: " + http.Error();
+			errorText.text = "error: " + resp.Error();
 		}
 		StopCoroutine (ClearOutput ());
 		StartCoroutine (ClearOutput ());
 	}
 
 	public void GetPost() {
-		StartCoroutine (Get (validURL, 1));
+		StartCoroutine (Get (ValidURL, 1));
 	}
 
 	public void CreatePost() {
@@ -106,11 +106,11 @@ public class Main : MonoBehaviour {
 	}
 
 	public void GetNonExistentPost() {
-		StartCoroutine (Get (validURL, 999));
+		StartCoroutine (Get (ValidURL, 999));
 	}
 
 	public void GetInvalidUrl() {
-		StartCoroutine (Get (invalidURL, 1));
+		StartCoroutine (Get (InvalidURL, 1));
 	}
 
 	public void CreatePostWithFormData() {

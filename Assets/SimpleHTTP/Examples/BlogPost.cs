@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
 
-[System.Serializable]
+[Serializable]
 public class BlogPost {
 	public string title;
 	public string body;
