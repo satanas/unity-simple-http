@@ -3,7 +3,7 @@ using UnityEngine.Networking;
 
 namespace SimpleHTTP {
     public class FormData {
-        private List<IMultipartFormSection> formData;
+        private readonly List<IMultipartFormSection> formData;
 
         public FormData() {
             formData = new List<IMultipartFormSection>();
