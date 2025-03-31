@@ -8,6 +8,7 @@ Assets/AssetStoreTools*
 Logs/
 obj/
 UserSettings/*
+Packages/com.unity.asset-store-tools/
 
 # ===================== #
 # MonoDevelop generated #
